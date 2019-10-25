@@ -7,7 +7,8 @@ import wkda.domain.Task;
 import wkda.service.DayService;
 
 import javax.inject.Singleton;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class TestDataProvider {
@@ -25,10 +26,19 @@ public class TestDataProvider {
     public void loadInitialData(final ServiceStartedEvent event) {
 //        log.info("Loading data at startup");
 
-        dayService.addDay(new Day("20.10.2019", Arrays.asList(new Task("Do stuff"), new Task("Do more stuff"))));
-        dayService.addDay(new Day("21.10.2019", Arrays.asList(new Task("Fix stuff from the day before"))));
-        dayService.addDay(new Day("22.10.2019", Arrays.asList(new Task("A meeting"), new Task("Another meeting"), new Task("How many meetings are there??!"))));
+        dayService.addDay(new Day("20.10.2019", getMutableTaskList(new Task("Do stuff"), new Task("Do more stuff"))));
+        dayService.addDay(new Day("21.10.2019", getMutableTaskList(new Task("Fix stuff from the day before"))));
+        dayService.addDay(new Day("22.10.2019", getMutableTaskList(new Task("A meeting"), new Task("Another meeting"), new Task("How many meetings are there??!"))));
 
 //        log.info("Added data");
+    }
+
+    public List<Task> getMutableTaskList(Task... tasks) {
+        ArrayList<Task> taskList = new ArrayList<>();
+        for (Task task : tasks) {
+            taskList.add(task);
+        }
+
+        return taskList;
     }
 }

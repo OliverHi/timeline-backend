@@ -16,4 +16,7 @@ public class CreateTaskDTO {
         this.task = task;
         this.dayId = dayId;
     }
+
+    public CreateTaskDTO() {
+    }
 }

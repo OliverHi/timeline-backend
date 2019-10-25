@@ -43,7 +43,8 @@ public class DayService {
 
     public void addTaskToDay(Task newTask, int dayId) {
         Day day = this.getDay(dayId);
-        day.getTasks().add(newTask);
+        Task createdTask = taskService.addTask(newTask);
+        day.getTasks().add(createdTask);
         updateDay(day);
     }
 

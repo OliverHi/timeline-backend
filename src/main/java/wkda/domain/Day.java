@@ -11,6 +11,9 @@ public class Day extends MockData {
         this.tasks = tasks;
     }
 
+    public Day() {
+    }
+
     public String getName() {
         return name;
     }

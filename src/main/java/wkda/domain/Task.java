@@ -15,4 +15,7 @@ public class Task extends MockData {
     public Task(String task) {
         this.task = task;
     }
+
+    public Task() {
+    }
 }

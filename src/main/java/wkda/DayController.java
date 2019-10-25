@@ -28,7 +28,7 @@ public class DayController {
 
     @Post("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Day addDay(Day day) {
+    public Day addDay(@Body Day day) {
         return dayService.addDay(day);
     }
 
