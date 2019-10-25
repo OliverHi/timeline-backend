@@ -8,7 +8,7 @@ import wkda.service.DayService;
 import javax.inject.Inject;
 import java.util.List;
 
-@Controller("/day")
+@Controller("/api/day")
 public class DayController {
 
     @Inject

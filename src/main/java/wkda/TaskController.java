@@ -10,7 +10,7 @@ import wkda.service.TaskService;
 import javax.inject.Inject;
 import java.util.List;
 
-@Controller("/task")
+@Controller("/api/task")
 public class TaskController {
 
     @Inject
