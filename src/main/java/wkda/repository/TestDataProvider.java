@@ -12,10 +12,7 @@ import java.util.List;
 
 @Singleton
 public class TestDataProvider {
-    /**
-     * Reactive repository for Mongo database to store
-     * Conference objects with an id and name property.
-     */
+
     private final DayService dayService;
 
     public TestDataProvider(final DayService service) {
@@ -26,9 +23,9 @@ public class TestDataProvider {
     public void loadInitialData(final ServiceStartedEvent event) {
 //        log.info("Loading data at startup");
 
-        dayService.addDay(new Day("20.10.2019", getMutableTaskList(new Task("Do stuff"), new Task("Do more stuff"))));
-        dayService.addDay(new Day("21.10.2019", getMutableTaskList(new Task("Fix stuff from the day before"))));
-        dayService.addDay(new Day("22.10.2019", getMutableTaskList(new Task("A meeting"), new Task("Another meeting"), new Task("How many meetings are there??!"))));
+        dayService.addDay(new Day("23/10/2019", getMutableTaskList(new Task("Did stuff"), new Task("Did more stuff"))));
+        dayService.addDay(new Day("24/10/2019", getMutableTaskList(new Task("Fixed stuff from the day before"))));
+        dayService.addDay(new Day("25/10/2019", getMutableTaskList(new Task("Hackathon"))));
 
 //        log.info("Added data");
     }

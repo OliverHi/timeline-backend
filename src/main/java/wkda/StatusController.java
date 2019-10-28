@@ -9,7 +9,7 @@ import io.micronaut.http.annotation.Produces;
 public class StatusController {
     @Get("/")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getAllDays() {
+    public String getStatus() {
         return "Service is up and running";
     }
 }
