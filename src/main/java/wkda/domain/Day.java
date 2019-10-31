@@ -6,9 +6,10 @@ public class Day extends MockData {
     private String name;
     private List<Task> tasks;
 
-    public Day(String name, List<Task> tasks) {
+    public Day(Integer id, String name, List<Task> tasks) {
         this.name = name;
         this.tasks = tasks;
+        this.id = id;
     }
 
     public Day() {

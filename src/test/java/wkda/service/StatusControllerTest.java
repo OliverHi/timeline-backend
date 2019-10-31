@@ -15,7 +15,7 @@ import javax.inject.Inject;
 public class StatusControllerTest {
 
     @Inject
-    @Client("/")
+    @Client("/api")
     RxHttpClient client;
 
     @Test

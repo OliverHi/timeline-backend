@@ -23,9 +23,11 @@ public class TestDataProvider {
     public void loadInitialData(final ServiceStartedEvent event) {
 //        log.info("Loading data at startup");
 
-        dayService.addDay(new Day("23/10/2019", getMutableTaskList(new Task("Did stuff"), new Task("Did more stuff"))));
-        dayService.addDay(new Day("24/10/2019", getMutableTaskList(new Task("Fixed stuff from the day before"))));
-        dayService.addDay(new Day("25/10/2019", getMutableTaskList(new Task("Hackathon"))));
+        dayService.addDay(new Day(1, "21/10/2019", getMutableTaskList(new Task("Worked on new feature"))));
+        dayService.addDay(new Day(2, "22/10/2019", getMutableTaskList(new Task("Dockerization"))));
+        dayService.addDay(new Day(3, "23/10/2019", getMutableTaskList(new Task("Did stuff"), new Task("Did more stuff"))));
+        dayService.addDay(new Day(4, "24/10/2019", getMutableTaskList(new Task("Fixed stuff from the day before"))));
+        dayService.addDay(new Day(5, "25/10/2019", getMutableTaskList(new Task("Hackathon"))));
 
 //        log.info("Added data");
     }
