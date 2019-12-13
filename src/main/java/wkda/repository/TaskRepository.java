@@ -1,8 +1,9 @@
 package wkda.repository;
 
+import io.micronaut.data.annotation.Repository;
+import io.micronaut.data.repository.CrudRepository;
+
 import wkda.domain.Task;
 
-import javax.inject.Singleton;
-
-@Singleton
-public class TaskRepository extends MockRepository<Task> {}
+@Repository
+public interface TaskRepository extends CrudRepository<Task, Long> {}

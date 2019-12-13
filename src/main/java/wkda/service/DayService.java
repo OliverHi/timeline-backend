@@ -1,57 +1,40 @@
 package wkda.service;
 
+import wkda.domain.CreateDayDTO;
 import wkda.domain.Day;
-import wkda.domain.Task;
 import wkda.repository.DayRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static io.micronaut.core.util.CollectionUtils.iterableToList;
 
 @Singleton
 public class DayService {
 
     @Inject
     private DayRepository dayRepository;
-
-    @Inject TaskService taskService;
     
     public List<Day> getAllDays() {
-        return dayRepository.findAll();
+        return iterableToList(dayRepository.findAll());
     }
     
-    public Day getDay(int id) {
-        return dayRepository.findById(id);
+    public Day getDay(Long id) {
+        return dayRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
     
-    public void deleteDay(int id) {
-        deleteTasksOfDay(id);
-        dayRepository.delete(id);
+    public void deleteDay(Long id) {
+        dayRepository.deleteById(id);
     }
 
-    public Day addDay(Day newDay) {
-        dayRepository.add(newDay);
-        newDay.getTasks().forEach(taskService::addTask);
-        return newDay;
+    public Day addDay(CreateDayDTO createDayDTO) { ;
+        return dayRepository.save(new Day(null, createDayDTO.getName(), new ArrayList<>()));
     }
 
     public void updateDay(Day updatedDay) {
-        deleteTasksOfDay(updatedDay.getId());
-        dayRepository.update(updatedDay.getId(), updatedDay);
-        updatedDay.getTasks().forEach(taskService::addTask);
-    }
-
-    public void addTaskToDay(Task newTask, int dayId) {
-        Day day = this.getDay(dayId);
-        Task createdTask = taskService.addTask(newTask);
-        day.getTasks().add(createdTask);
-        updateDay(day);
-    }
-
-    private void deleteTasksOfDay(int id) {
-        Integer[] orphanTasks = dayRepository.findById(id).getTasks().stream()
-                .map(Task::getId).toArray(Integer[]::new);
-
-        taskService.deleteTasks(orphanTasks);
+        dayRepository.save(updatedDay);
     }
 }

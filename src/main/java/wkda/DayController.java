@@ -2,6 +2,7 @@ package wkda;
 
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
+import wkda.domain.CreateDayDTO;
 import wkda.domain.Day;
 import wkda.service.DayService;
 
@@ -22,18 +23,18 @@ public class DayController {
 
     @Get("/{day}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Day getDay(Integer day) {
+    public Day getDay(Long day) {
         return dayService.getDay(day);
     }
 
     @Post("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Day addDay(@Body Day day) {
+    public Day addDay(@Body CreateDayDTO day) {
         return dayService.addDay(day);
     }
 
     @Delete("/{id}")
-    public void deleteDay(int id) {
+    public void deleteDay(Long id) {
         dayService.deleteDay(id);
     }
 }

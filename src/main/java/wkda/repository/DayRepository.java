@@ -1,11 +1,9 @@
 package wkda.repository;
 
+import io.micronaut.data.annotation.Repository;
+import io.micronaut.data.repository.CrudRepository;
 import wkda.domain.Day;
 
-import javax.inject.Singleton;
-
-@Singleton
-public class DayRepository extends MockRepository<Day> {
-
-    public DayRepository() {}
+@Repository
+public interface DayRepository extends CrudRepository<Day, Long> {
 }

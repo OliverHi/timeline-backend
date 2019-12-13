@@ -4,7 +4,6 @@ import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
 import wkda.domain.CreateTaskDTO;
 import wkda.domain.Task;
-import wkda.service.DayService;
 import wkda.service.TaskService;
 
 import javax.inject.Inject;
@@ -16,29 +15,26 @@ public class TaskController {
     @Inject
     private TaskService taskService;
 
-    @Inject
-    private DayService dayService;
-
     @Get("/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Task> getAllTasks() {
         return taskService.getAllTasks();
     }
 
-    @Get("/{Task}")
+    @Get("/{task}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Task getTask(Integer Task) {
-        return taskService.getTask(Task);
+    public Task getTask(Long task) {
+        return taskService.getTask(task);
     }
 
     @Post("/")
     @Produces(MediaType.APPLICATION_JSON)
     public void addTask(@Body CreateTaskDTO createTaskDTO) {
-        dayService.addTaskToDay(createTaskDTO.getTask(), createTaskDTO.getDayId());
+        taskService.addTask(createTaskDTO.getTask(), createTaskDTO.getDayId());
     }
 
     @Delete("/{id}")
-    public void deleteTask(int id) {
+    public void deleteTask(Long id) {
         taskService.deleteTask(id);
     }
 }

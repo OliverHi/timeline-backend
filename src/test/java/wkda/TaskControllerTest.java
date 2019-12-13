@@ -9,25 +9,23 @@ import wkda.domain.CreateDayDTO;
 import wkda.domain.Day;
 
 import javax.inject.Inject;
+
 import java.util.List;
 
 import static io.micronaut.http.HttpRequest.GET;
 import static io.micronaut.http.HttpRequest.POST;
 import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @MicronautTest
-public class DayControllerTest {
+class TaskControllerTest {
 
     @Inject
-    @Client("/api/day")
+    @Client("/api/task")
     RxHttpClient client;
 
-    // TODO init DB for tests and write seperate ones
-
     @Test
-    void testFullDayLifecycle() {
+    void testFullTaskLifecycle() {
         // create one day
         CreateDayDTO newDay = new CreateDayDTO("A bright new day");
         Day createdDay = client.toBlocking().retrieve(POST("/", newDay), Day.class);
