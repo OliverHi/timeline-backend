@@ -15,3 +15,6 @@ To run this project simply use `gradle run`. This backend provides an API on por
 - /api/status which just returns `Service is up and running` when the service is up
 - /api/day with standard crud operations for days
 - /api/task with standard crud operations for updatings tasks
+
+To enable calls to this API together with the test frontend a proxy is needed to avoid CORS errors. 
+`localhost:8080` has therefore been added as proxy in the frontend settings.
