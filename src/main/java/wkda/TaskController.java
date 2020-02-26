@@ -29,8 +29,8 @@ public class TaskController {
 
     @Post("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public void addTask(@Body CreateTaskDTO createTaskDTO) {
-        taskService.addTask(createTaskDTO.getTask(), createTaskDTO.getDayId());
+    public Task addTask(@Body CreateTaskDTO createTaskDTO) {
+        return taskService.addTask(createTaskDTO.getTask(), createTaskDTO.getDayId());
     }
 
     @Delete("/{id}")

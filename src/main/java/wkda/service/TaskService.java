@@ -44,7 +44,7 @@ public class TaskService {
 
     public Task addTask(String newTask, Long dayId) {
         Day dayForTask = dayService.getDay(dayId);
-        Task task = new Task(1L, newTask, dayForTask);
+        Task task = new Task(null, newTask, dayForTask);
         return taskRepository.save(task);
     }
 

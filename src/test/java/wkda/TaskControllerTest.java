@@ -6,15 +6,15 @@ import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 import wkda.domain.CreateDayDTO;
+import wkda.domain.CreateTaskDTO;
 import wkda.domain.Day;
+import wkda.domain.Task;
 
 import javax.inject.Inject;
 
 import java.util.List;
 
-import static io.micronaut.http.HttpRequest.GET;
-import static io.micronaut.http.HttpRequest.POST;
-import static java.util.Collections.emptyList;
+import static io.micronaut.http.HttpRequest.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @MicronautTest
@@ -22,45 +22,43 @@ class TaskControllerTest {
 
     @Inject
     @Client("/api/task")
-    RxHttpClient client;
+    RxHttpClient taskClient;
+
+    @Inject
+    @Client("/api/day")
+    RxHttpClient dayClient;
 
     @Test
     void testFullTaskLifecycle() {
         // create one day
         CreateDayDTO newDay = new CreateDayDTO("A bright new day");
-        Day createdDay = client.toBlocking().retrieve(POST("/", newDay), Day.class);
+        Day createdDay = dayClient.toBlocking().retrieve(POST("/", newDay), Day.class);
 
         assertEquals(newDay.getName(), createdDay.getName());
-        assertEquals(emptyList(), createdDay.getTasks());
+        assertNull(createdDay.getTasks());
         assertNotNull(createdDay.getId());
 
-        // create another day
-        CreateDayDTO anotherDay = new CreateDayDTO("Another bright new day");
-        Day createdDay2 = client.toBlocking().retrieve(POST("/", anotherDay), Day.class);
+        // create a task for the first day
+        CreateTaskDTO newTask = new CreateTaskDTO("A very important task", createdDay.getId());
+        Task createdTask = taskClient.toBlocking().retrieve(POST("/", newTask), Task.class);
 
-        assertEquals(anotherDay.getName(), createdDay2.getName());
-        assertEquals(emptyList(), createdDay2.getTasks());
-        assertNotNull(createdDay2.getId());
+        assertEquals(newTask.getTask(), createdTask.getTask());
+        assertNotNull(createdTask.getId());
+//        assertEquals(createdDay, createdTask.getDay());
 
-        // get first day
-        Day firstCreatedDay = client.toBlocking().retrieve(GET("/" + createdDay.getId()), Day.class);
+        // get task
+        Task firstTask = taskClient.toBlocking().retrieve(GET("/" + createdTask.getId()), Task.class);
+        assertEquals(createdTask.getTask(), firstTask.getTask());
+        assertEquals(createdTask.getId(), firstTask.getId());
+        assertEquals(createdTask.getDay(), firstTask.getDay());
 
-        assertNotNull(firstCreatedDay);
-        assertEquals(createdDay.getName(), firstCreatedDay.getName());
+        // delete task
+        taskClient.toBlocking().exchange(DELETE("/" + createdTask.getId()));
+        dayClient.toBlocking().exchange(HttpRequest.DELETE("/" + createdDay.getId()));
 
-        List<Day> allDays = client.toBlocking().retrieve(GET("/"), List.class);
-
-        assertNotNull(allDays);
-        assertEquals(2, allDays.size());
-
-        // delete days
-        client.toBlocking().exchange(HttpRequest.DELETE("/" + createdDay.getId()));
-        client.toBlocking().exchange(HttpRequest.DELETE("/" + createdDay2.getId()));
-
-        // no days left
-        List<Day> allDaysLeft = client.toBlocking().retrieve(GET("/"), List.class);
-
-        assertNotNull(allDaysLeft);
-        assertEquals(0, allDaysLeft.size());
+        // no tasks left
+        List<Task> allTasksLeft = taskClient.toBlocking().retrieve(GET("/"), List.class);
+        assertNotNull(allTasksLeft);
+        assertEquals(0, allTasksLeft.size());
     }
 }

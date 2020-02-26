@@ -13,9 +13,7 @@ import java.util.List;
 
 import static io.micronaut.http.HttpRequest.GET;
 import static io.micronaut.http.HttpRequest.POST;
-import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @MicronautTest
 public class DayControllerTest {
@@ -33,7 +31,7 @@ public class DayControllerTest {
         Day createdDay = client.toBlocking().retrieve(POST("/", newDay), Day.class);
 
         assertEquals(newDay.getName(), createdDay.getName());
-        assertEquals(emptyList(), createdDay.getTasks());
+        assertNull(createdDay.getTasks());
         assertNotNull(createdDay.getId());
 
         // create another day
@@ -41,7 +39,7 @@ public class DayControllerTest {
         Day createdDay2 = client.toBlocking().retrieve(POST("/", anotherDay), Day.class);
 
         assertEquals(anotherDay.getName(), createdDay2.getName());
-        assertEquals(emptyList(), createdDay2.getTasks());
+        assertNull(createdDay2.getTasks());
         assertNotNull(createdDay2.getId());
 
         // get first day
@@ -61,7 +59,6 @@ public class DayControllerTest {
 
         // no days left
         List<Day> allDaysLeft = client.toBlocking().retrieve(GET("/"), List.class);
-
         assertNotNull(allDaysLeft);
         assertEquals(0, allDaysLeft.size());
     }
